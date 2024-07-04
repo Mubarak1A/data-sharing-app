@@ -1,6 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { UserData } from '../../database/entities/user-data.entity';
-import { Image } from '../../database/entities/image.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+export enum UserRole {
+  UserA = 'UserA',
+  UserB = 'UserB',
+}
 
 @Entity()
 export class User {
@@ -13,9 +16,10 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => UserData, userData => userData.user)
-  userData: UserData[];
-
-  @OneToMany(() => Image, image => image.user)
-  images: Image[];
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.UserA,
+  })
+  role: UserRole;
 }
