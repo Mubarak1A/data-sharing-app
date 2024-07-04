@@ -1,17 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
-import { UserData } from '../database/entities/user-data.entity';
-import { Image } from '../database/entities/image.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { User, UserRole } from './entities/user.entity';
+import { CreateUserDataDto } from '../database/dto/create-user-data.dto';
+import { UserData } from '../database/entities/user-data.entity';
+import { UploadImageDto } from './dto/upload-image.dto';
+import { Image } from '../database/entities/image.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
-    @InjectRepository(UserData) private userDataRepository: Repository<UserData>,
-    @InjectRepository(Image) private imageRepository: Repository<Image>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    @InjectRepository(UserData)
+    private userDataRepository: Repository<UserData>,
+    @InjectRepository(Image)
+    private imageRepository: Repository<Image>,
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -27,16 +32,16 @@ export class UserService {
     return this.userDataRepository.find({ where: { user: { id: userId } } });
   }
 
-  async createUserData(userId: number, userData: Partial<UserData>): Promise<UserData> {
+  async createUserData(userId: number, createUserDataDto: CreateUserDataDto): Promise<UserData> {
     const user = await this.usersRepository.findOne({ where: { id: userId } });
-    const newUserData = this.userDataRepository.create({ ...userData, user });
-    return this.userDataRepository.save(newUserData);
+    const userData = this.userDataRepository.create({ ...createUserDataDto, user });
+    return this.userDataRepository.save(userData);
   }
 
-  async uploadImage(userId: number, imageUrl: string): Promise<Image> {
+  async uploadImage(userId: number, uploadImageDto: UploadImageDto): Promise<Image> {
     const user = await this.usersRepository.findOne({ where: { id: userId } });
-    const newImage = this.imageRepository.create({ imageUrl, user });
-    return this.imageRepository.save(newImage);
+    const image = this.imageRepository.create({ ...uploadImageDto, user });
+    return this.imageRepository.save(image);
   }
 
   async getUserImages(userId: number): Promise<Image[]> {
