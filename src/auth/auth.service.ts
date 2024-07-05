@@ -1,5 +1,4 @@
-// src/auth/auth.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -11,11 +10,12 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    @Inject('FIREBASE_ADMIN') private readonly firebaseAdmin: admin.app.App,
   ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
     try {
-      const userRecord = await admin.auth().getUserByEmail(email);
+      const userRecord = await this.firebaseAdmin.auth().getUserByEmail(email);
       const user = await this.userService.findByEmail(email);
       if (user && user.password === password) {
         return user;
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto): Promise<User> {
-    await admin.auth().createUser({
+    await this.firebaseAdmin.auth().createUser({
       email: createUserDto.email,
       password: createUserDto.password,
     });
