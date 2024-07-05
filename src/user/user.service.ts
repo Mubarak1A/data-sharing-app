@@ -34,7 +34,8 @@ export class UserService {
 
   async createUserData(userId: number, createUserDataDto: CreateUserDataDto): Promise<UserData> {
     const user = await this.usersRepository.findOne({ where: { id: userId } });
-    const userData = this.userDataRepository.create({ ...createUserDataDto, user });
+    const percentage = (createUserDataDto.numberOfUsers / createUserDataDto.numberOfProducts) * 100
+    const userData = this.userDataRepository.create({ ...createUserDataDto, user, percentage });
     return this.userDataRepository.save(userData);
   }
 

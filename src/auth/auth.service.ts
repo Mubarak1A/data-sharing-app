@@ -13,18 +13,19 @@ export class AuthService {
     @Inject('FIREBASE_ADMIN') private readonly firebaseAdmin: admin.app.App,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<User> {
+  async validateUser(email: string): Promise<User> {
     try {
       const userRecord = await this.firebaseAdmin.auth().getUserByEmail(email);
       const user = await this.userService.findByEmail(email);
-      if (user && user.password === password) {
-        return user;
+      if (user) {
+        return user; // User object is returned without password check
       }
       throw new UnauthorizedException();
     } catch (error) {
       throw new UnauthorizedException();
     }
   }
+  
 
   async login(user: User) {
     const payload = { email: user.email, sub: user.id, role: user.role };
