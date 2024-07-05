@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "5ca3c867-1d5e-46d3-ba37-7f035ffa7d66",
+		"name": "data-sharing-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30168567"
+	},
+	"item": [
+		{
+			"name": "user login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"userA@gmail.com\",\r\n  \"password\": \"UserA123@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data-sharing-app-h0g7.onrender.com/auth/login",
+					"protocol": "https",
+					"host": [
+						"data-sharing-app-h0g7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "login individual user with email AND password"
+			},
+			"response": []
+		},
+		{
+			"name": "create data (userA)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJBQGdtYWlsLmNvbSIsInN1YiI6MSwicm9sZSI6IlVzZXJBIiwiaWF0IjoxNzIwMTkzNzg5LCJleHAiOjE3MjAxOTczODl9.M9g8gkmdylppOLKu2O3RJIZivdKYwrKHRVUnqIVLfYU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"companyName\": \"Lanik\",\r\n  \"numberOfUsers\": 8,\r\n  \"numberOfProducts\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data-sharing-app-h0g7.onrender.com/users/1/data",
+					"protocol": "https",
+					"host": [
+						"data-sharing-app-h0g7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"users",
+						"1",
+						"data"
+					]
+				},
+				"description": "user A have access to create data (company data)"
+			},
+			"response": []
+		},
+		{
+			"name": "get user A data (user B)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJCQGdtYWlsLmNvbSIsInN1YiI6Miwicm9sZSI6IlVzZXJCIiwiaWF0IjoxNzIwMTk0NDc4LCJleHAiOjE3MjAxOTgwNzh9.KdcCep22GXNfIeRnMEyZTVr357PS1RzzknlPv-Dar64",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://data-sharing-app-h0g7.onrender.com/users/1/data",
+					"protocol": "https",
+					"host": [
+						"data-sharing-app-h0g7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"users",
+						"1",
+						"data"
+					]
+				},
+				"description": "User B can view user a company datas"
+			},
+			"response": []
+		},
+		{
+			"name": "upload image to user A (user B)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJCQGdtYWlsLmNvbSIsInN1YiI6Miwicm9sZSI6IlVzZXJCIiwiaWF0IjoxNzIwMTk0NDc4LCJleHAiOjE3MjAxOTgwNzh9.KdcCep22GXNfIeRnMEyZTVr357PS1RzzknlPv-Dar64",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"imageUrl\": \"image-2.png\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data-sharing-app-h0g7.onrender.com/users/1/images",
+					"protocol": "https",
+					"host": [
+						"data-sharing-app-h0g7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"users",
+						"1",
+						"images"
+					]
+				},
+				"description": "user B can upload image to user A account"
+			},
+			"response": []
+		},
+		{
+			"name": "get images (user A)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJBQGdtYWlsLmNvbSIsInN1YiI6MSwicm9sZSI6IlVzZXJBIiwiaWF0IjoxNzIwMTk0ODI0LCJleHAiOjE3MjAxOTg0MjR9.G16A3Mhxs3bgTnABG6GN3E2s5jvXftSG-0kMSrVFUiE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://data-sharing-app-h0g7.onrender.com/users/1/images",
+					"protocol": "https",
+					"host": [
+						"data-sharing-app-h0g7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"users",
+						"1",
+						"images"
+					]
+				},
+				"description": "user A can view user B uploaded images"
+			},
+			"response": []
+		}
+	]
+}
