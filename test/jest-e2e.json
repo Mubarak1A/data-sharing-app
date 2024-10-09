@@ -7,3 +7,5 @@
     "^.+\\.(t|j)s$": "ts-jest"
   }
 }
+
+// test codowner file 2
